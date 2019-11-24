@@ -21,19 +21,19 @@ int main() {
 double erlangC_log_space(int N, double lambda, double mew) {
 	double pi0 = 1.0;
 	double lnPQ;
-	double utilOverN = lambda / mew;
+	double utiltimesN = lambda / mew;
 	double util = lambda / (mew * static_cast<double>(N));
-	double lnFactN = ln_factorial(N);
 	
 	//compute pi0 and add -ln(pi0) to PQ
-	for (int i = 1; i < (N - 1); i++) {
-		pi0 += std::exp(i * std::log(utilOverN) - lnFactN);
-		pi0 += std::exp(N * std::log(utilOverN) - lnFactN - std::log(1 - util));
+	for (int i = 1; i < N; i++) {
+		pi0 += std::exp(i * std::log(utiltimesN) - ln_factorial(i));
 	}
+	pi0 += std::exp(N * std::log(utiltimesN) - ln_factorial(N) - std::log(1 - util));
 	lnPQ = -std::log(pi0);
+
 	//compute remaining terms and return PQ = exp(lnPQ)
-	lnPQ -= lnFactN;
-	lnPQ += N * std::log(utilOverN);
+	lnPQ -= ln_factorial(N);
+	lnPQ += N * std::log(utiltimesN);
 	lnPQ -= std::log(1.0 - util);
 	return std::exp(lnPQ);
 }
